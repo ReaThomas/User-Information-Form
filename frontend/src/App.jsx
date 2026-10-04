@@ -105,31 +105,61 @@ if (isSubmitted) {
             Please enter your details carefully.
           </p>
         </div>
+      {/* Progress */}
+<div className="mb-10 flex items-center justify-center gap-3">
 
-        {/* Progress */}
-        <div className="mb-10 flex items-center justify-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 font-bold">
-            1
-          </div>
+  {/* Step 1 */}
+  <div
+    className={`flex h-10 w-10 items-center justify-center rounded-full font-bold transition-all duration-300 ${
+      currentPage === 1
+        ? "bg-blue-600 text-white"
+        : "border border-slate-700 text-slate-500"
+    }`}
+  >
+    1
+  </div>
 
-          <div className="h-[2px] w-16 bg-slate-700"></div>
+  <div className="h-[2px] w-16 bg-slate-700"></div>
 
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 text-slate-500">
-            2
-          </div>
+  {/* Step 2 */}
+  <div
+    className={`flex h-10 w-10 items-center justify-center rounded-full font-bold transition-all duration-300 ${
+      currentPage === 2
+        ? "bg-blue-600 text-white"
+        : "border border-slate-700 text-slate-500"
+    }`}
+  >
+    2
+  </div>
 
-          <div className="h-[2px] w-16 bg-slate-700"></div>
+  <div className="h-[2px] w-16 bg-slate-700"></div>
 
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 text-slate-500">
-            3
-          </div>
+  {/* Step 3 */}
+  <div
+    className={`flex h-10 w-10 items-center justify-center rounded-full font-bold transition-all duration-300 ${
+      currentPage === 3
+        ? "bg-blue-600 text-white"
+        : "border border-slate-700 text-slate-500"
+    }`}
+  >
+    3
+  </div>
 
-          <div className="h-[2px] w-16 bg-slate-700"></div>
+  <div className="h-[2px] w-16 bg-slate-700"></div>
 
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 text-slate-500">
-            4
-          </div>
-        </div>
+  {/* Step 4 */}
+  <div
+    className={`flex h-10 w-10 items-center justify-center rounded-full font-bold transition-all duration-300 ${
+      currentPage === 4
+        ? "bg-blue-600 text-white"
+        : "border border-slate-700 text-slate-500"
+    }`}
+  >
+    4
+  </div>
+
+</div>
+        
 
         {/* PAGE 1 */}
         {currentPage === 1 && (
