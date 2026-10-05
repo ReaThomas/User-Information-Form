@@ -52,6 +52,9 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+    public Long getId() {
+    return id;
+}
 
     public String getDob() {
         return dob;
