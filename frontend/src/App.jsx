@@ -16,6 +16,10 @@ function ReviewItem({ label, value }) {
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [showUsers, setShowUsers] = useState(false);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+  const [usersError, setUsersError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -61,6 +65,30 @@ function App() {
 
   setCurrentPage(2);
 };
+const handleDisplayUsers = async () => {
+  setIsLoadingUsers(true);
+  setUsersError("");
+
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/users`
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch users");
+    }
+
+    const data = await response.json();
+
+    setUsers(data);
+    setShowUsers(true);
+  } catch (error) {
+    console.error("Fetch users error:", error);
+    setUsersError("Failed to load user information.");
+  } finally {
+    setIsLoadingUsers(false);
+  }
+};
 if (isSubmitted) {
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-6">
@@ -81,6 +109,96 @@ if (isSubmitted) {
         <p className="mt-3 text-slate-500">
           Your information has been successfully submitted.
         </p>
+        <button
+  type="button"
+  onClick={handleDisplayUsers}
+  disabled={isLoadingUsers}
+  className="mt-8 rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white shadow-lg transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+>
+  {isLoadingUsers ? "Loading Users..." : "Display All Users"}
+</button>
+{usersError && (
+  <p className="mt-6 text-red-400">
+    {usersError}
+  </p>
+)}
+
+{showUsers && (
+  <div className="mt-10 w-full overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900">
+    {users.length === 0 ? (
+      <p className="p-6 text-slate-400">
+        No users have been submitted yet.
+      </p>
+    ) : (
+      <table className="min-w-max w-full border-collapse text-left text-sm">
+        <thead>
+          <tr className="border-b border-slate-700 bg-slate-800">
+            <th className="px-4 py-3 text-slate-300">ID</th>
+            <th className="px-4 py-3 text-slate-300">Name</th>
+            <th className="px-4 py-3 text-slate-300">DOB</th>
+            <th className="px-4 py-3 text-slate-300">Gender</th>
+            <th className="px-4 py-3 text-slate-300">Blood Group</th>
+            <th className="px-4 py-3 text-slate-300">School Name</th>
+            <th className="px-4 py-3 text-slate-300">10th %</th>
+            <th className="px-4 py-3 text-slate-300">12th %</th>
+            <th className="px-4 py-3 text-slate-300">College Name</th>
+            <th className="px-4 py-3 text-slate-300">Department / Degree</th>
+            <th className="px-4 py-3 text-slate-300">CGPA</th>
+            <th className="px-4 py-3 text-slate-300">Graduation Year</th>
+            <th className="px-4 py-3 text-slate-300">Highest Qualification</th>
+            <th className="px-4 py-3 text-slate-300">Current City</th>
+            <th className="px-4 py-3 text-slate-300">Email</th>
+            <th className="px-4 py-3 text-slate-300">Mobile</th>
+            <th className="px-4 py-3 text-slate-300">Address</th>
+            <th className="px-4 py-3 text-slate-300">State</th>
+            <th className="px-4 py-3 text-slate-300">Pincode</th>
+            <th className="px-4 py-3 text-slate-300">Current Status</th>
+            <th className="px-4 py-3 text-slate-300">Job Title</th>
+            <th className="px-4 py-3 text-slate-300">Company Name</th>
+            <th className="px-4 py-3 text-slate-300">Years of Experience</th>
+            <th className="px-4 py-3 text-slate-300">LinkedIn</th>
+            <th className="px-4 py-3 text-slate-300">GitHub</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {users.map((user) => (
+            <tr
+              key={user.id}
+              className="border-b border-slate-800 last:border-b-0"
+            >
+              <td className="px-4 py-3 text-slate-300">{user.id}</td>
+              <td className="px-4 py-3 text-white">{user.name}</td>
+              <td className="px-4 py-3 text-slate-300">{user.dob}</td>
+              <td className="px-4 py-3 text-slate-300">{user.gender}</td>
+              <td className="px-4 py-3 text-slate-300">{user.bloodGroup}</td>
+              <td className="px-4 py-3 text-slate-300">{user.schoolName}</td>
+              <td className="px-4 py-3 text-slate-300">{user.tenthPercentage}</td>
+              <td className="px-4 py-3 text-slate-300">{user.twelfthPercentage}</td>
+              <td className="px-4 py-3 text-slate-300">{user.collegeName}</td>
+              <td className="px-4 py-3 text-slate-300">{user.departmentOrDegree}</td>
+              <td className="px-4 py-3 text-slate-300">{user.cgpa}</td>
+              <td className="px-4 py-3 text-slate-300">{user.graduationYear}</td>
+              <td className="px-4 py-3 text-slate-300">{user.highestQualification}</td>
+              <td className="px-4 py-3 text-slate-300">{user.currentCity}</td>
+              <td className="px-4 py-3 text-slate-300">{user.email}</td>
+              <td className="px-4 py-3 text-slate-300">{user.mobile}</td>
+              <td className="px-4 py-3 text-slate-300">{user.address}</td>
+              <td className="px-4 py-3 text-slate-300">{user.state}</td>
+              <td className="px-4 py-3 text-slate-300">{user.pincode}</td>
+              <td className="px-4 py-3 text-slate-300">{user.currentStatus}</td>
+              <td className="px-4 py-3 text-slate-300">{user.jobTitle}</td>
+              <td className="px-4 py-3 text-slate-300">{user.companyName}</td>
+              <td className="px-4 py-3 text-slate-300">{user.yearsOfExperience}</td>
+              <td className="px-4 py-3 text-slate-300">{user.linkedinProfile}</td>
+              <td className="px-4 py-3 text-slate-300">{user.githubProfile}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+)}
 
       </div>
     </div>
